@@ -1,0 +1,45 @@
+Conversao IEEE 754
+
+
+            2.3
+
+-> Primeiro converter o Decimal ao Binario 
+-> Depois converter ao Padrao IEEE
+
+
+
+-> pra converter inteiro em binario: Dividir por 2 e pegar resto
+-> pra converter Decimal em Binario: multiplicar por 2 e pegar a parte inteira
+
+
+
+0.3 * 2 = 0.6: parte inteira = 0:
+0.6 / 2 = 0.3 resto = 0: 
+
+
+Conversao em Binario
+{
+    Transformar a parte Inteira em binario normal:
+
+    Fazer tabela do Decimal
+    {
+        enquanto nao for dizima
+        {
+            multiplicar por 2
+            associar a parte inteira
+        }
+    }
+
+
+
+
+
+
+}
+
+
+
+
+
+
+   
