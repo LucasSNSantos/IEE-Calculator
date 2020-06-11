@@ -5,18 +5,26 @@
 #include<stdlib.h>
 #include<stdio.h>
 
+typedef int*  Binario;
+typedef char* FloatBinario;
 
-//definindo um numero binario como um vetor de inteiros
-int* inicializa_bin(int bit_size)
+
+char parseChar(int val)
 {
-	int* temp;
-	temp = (int*) malloc(sizeof(int) * bit_size);
+	return val + '0';
+}
+
+//definindo um numero binario como um vetor de int
+Binario inicializa_bin(int bit_size)
+{
+	Binario temp;
+	temp = (Binario) malloc(sizeof(int) * bit_size);
 	return temp;
 }
 
 
 //funcao que printa um numero binario
-void printa_bin(int* num, int max_bits)
+void printa_bin(Binario num, int max_bits)
 {
 	int i = 0;
 	for(i ; i < max_bits; i++)
@@ -25,45 +33,94 @@ void printa_bin(int* num, int max_bits)
 	}
 }
 
-//funcao para inverter um vetor, usado na conversao
-void inverte_num(int* num, int max_bits)
-{
-	int* aux = inicializa_bin(max_bits);
-	int i;
-	int k;
-	for(i = max_bits - 1, k = 0; i > 0 ; i--, k++)
-	{
-		aux[k] = num[i]; 
-	}
-	for(i = 0; i < max_bits; i++)
-	{
-		num[i] = aux[i];
-	}
-	free(aux);
-	aux = NULL;
-}
-
 //funcao que converte um numero decimal em um numero binario
-int* converte_bin(int decimal, int max_bits)
+Binario converte_bin(int decimal, int max_bits)
 {
-	int i = 0;
+	int i = max_bits - 1;
 	int rest;
-	int* index = (int*) malloc(sizeof(int) * max_bits);
-	
-	while(decimal != 1)
+	Binario index = (Binario) malloc(sizeof(int) * max_bits);
+		
+	for(i;i >= 0; i--)
 	{
-		index[i] = decimal%2;
-		decimal /= 2;
-		i++;
-		if(i > max_bits) return NULL;
-		if(decimal == 1)
+		if(decimal%2 == 0)
 		{
-			index[i] = decimal;
+			index[i] = 0;
 		}
-	}
-	inverte_num(index, max_bits);
+		else
+		{
+			index[i] = 1;
+		}
+		decimal /= 2;
+	}	
+//	inverte_num(index, max_bits);
 	return index;
 }
+
+
+
+FloatBinario converte_float_bin(float numero, int max_bits, int mantissa_bits)
+{
+	int _inteiro = numero;
+	float _decimal = numero - _inteiro;
+	
+	int size_binario_decimal = max_bits + mantissa_bits + 1;
+	FloatBinario novo = (char*) malloc(sizeof(char) * size_binario_decimal); 
+	if(numero < 0)
+	{
+		strcpy(novo, "1");
+		numero *= -1;
+	}else
+	{
+		strcpy(novo, "0");
+	}
+	
+	
+	Binario parte_inteira = converte_bin(_inteiro,max_bits);
+	Binario parte_decimal = inicializa_bin(mantissa_bits);
+	int i = 0;
+	int aux;
+	
+	for(i = 0; i < mantissa_bits; i++)
+	{
+		_decimal *= 2;
+		aux = _decimal;
+		parte_decimal[i] = aux;	
+		_decimal = _decimal - aux;
+	}
+	
+	FloatBinario auxiliar = (char*) malloc(sizeof(char) * size_binario_decimal); 
+	for(i = 0; i < max_bits; i++)
+	{
+		auxiliar[i] = parseChar(parte_inteira[i]);
+	}
+	i++;
+	auxiliar[i] = ',';
+	for(i; i < mantissa_bits; i++)
+	{
+		auxiliar[i] = parseChar(parte_decimal[i]);
+	}
+	
+	strcat(novo, auxiliar);
+	return novo;
+}
+
+
+
+void printa_float_bin(char* elem)
+{
+	int i = 0;
+	
+	for(i; i < strlen(elem); i++)
+	{
+		printf("%c ", elem[i]);
+	}
+}
+
+
+
+
+
+
 
 
 #endif
