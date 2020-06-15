@@ -1,17 +1,21 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"Calculator.h"
+#include"Hexadecimal.h"
+#include"FloatPoint.h"
+#define MANTISSA 8
 
 
 int main()
 {
 
-    int* Binario;
-    int inteiro = 10;
-    Binario = inicializa_bin(4);
-    Binario = converte_bin(10,4);
-    printa_bin(Binario,4);
-	 
+//	float numero;
+//	scanf("%f", &numero);
+//	int bits = retorna_bits((int)numero);
+//	Numero num = converte_numero(numero,bits,MANTISSA);
+//	printa_numero(num,bits,8);
+
+
     
 
 
