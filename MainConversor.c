@@ -1,20 +1,21 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"Calculator.h"
+#include"Hexadecimal.h"
 #include"FloatPoint.h"
-#define MAX_BIT_SIZE 8
+#define MANTISSA 8
 
 
 int main()
 {
 
-	float entrada;
-	FloatBinario convertido;
-//	scanf("%f", &entrada);
-	convertido = converte_float_bin(9.7,4,8);
-	printa_float_bin(convertido);
-	
-	
+//	float numero;
+//	scanf("%f", &numero);
+//	int bits = retorna_bits((int)numero);
+//	Numero num = converte_numero(numero,bits,MANTISSA);
+//	printa_numero(num,bits,8);
+
+
     
 
 
