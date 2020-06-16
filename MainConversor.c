@@ -15,7 +15,8 @@ int main()
 //	Numero num = converte_numero(numero,bits,MANTISSA);
 //	printa_numero(num,bits,8);
 
-converte_bin_hexa("10101010110");
+ 	char* hexa = converte_bin_hexa("1001010110101");
+ 	printf("%s", hexa);
     
 
 
