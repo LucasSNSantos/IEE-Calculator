@@ -3,28 +3,10 @@
 #include<string.h>
 #include<stdlib.h>
 #include<string.h>
+#include<stdio.h>
 
 
 typedef char* Hexadecimal;
-
-
-split(4);
-
-Hexadecimal converte_bin_hexa(Binario bin)
-{
-	int tamanho = strlen(bin);
-	if(tamanho%4 == 0)
-	{
-		
-	}else
-	{
-		
-	}
-	
-	
-}
-
-
 
 
 
@@ -49,7 +31,51 @@ char hexa_convert(char* binario)
 }
 
 
+char* acrescenta_zeros (char* binario)
+{
+	char* novo_numero;
+	int n_size = strlen(binario) + 1;
+	novo_numero = (char*) malloc(sizeof(char) * n_size);
+	strcpy(novo_numero,"0");
+	strcat(novo_numero,binario);
+	return novo_numero;
+}
 
+
+Hexadecimal converte_bin_hexa(char* bin)
+{
+	int tamanho = strlen(bin);
+	char aux[4];
+	int count_aux = 0;
+	if(tamanho%4 != 0)
+	{
+		while(tamanho%4 != 0)
+		{
+			bin = acrescenta_zeros(bin);
+			tamanho = strlen(bin);
+		}
+	}
+	int i;
+	int aux_index = 0;
+	int index = 0;
+	char* hexa = (char*) malloc(sizeof(char) * (tamanho/4) ); 
+	for(i = tamanho - 1; i >= 0; i--)
+	{
+		aux[aux_index] = bin[i];
+		if(aux_index < 3)
+		{
+			aux_index++;
+		}else
+		{
+			strrev(aux);
+			hexa[index] = hexa_convert(aux);
+			index++;
+			aux_index = 0;
+		}
+	}
+	strrev(hexa);
+	return hexa;
+}
 
 
 
