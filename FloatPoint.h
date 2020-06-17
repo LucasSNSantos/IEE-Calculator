@@ -30,7 +30,6 @@ typedef struct patternIEE
 
 void print_numero_padronizado(IEE74 val)
 {
-	printf("Precisao escolhida: \n");
 	if(val.precisao <= 32)
 	{
 		printf("Precisao Simples: 32bits");
