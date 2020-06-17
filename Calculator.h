@@ -17,7 +17,6 @@ typedef struct numero{
 } Numero;
 
 
-
 // funcao que corta os numeros a partir da posicao
 char* corta_numero(char* num, int pos_corte)
 {
@@ -51,40 +50,33 @@ Numero inicializa_numero(int bits, int mantissa, int sinal)
 	return novo;
 }
 
-//
-//char* coloca_zero(char* numero)
-//{
-//	char* novo_numero;
-//	int n_size = strlen(numero) + 1;
-//	novo_numero = (char*) malloc(sizeof(char) * n_size);
-//	strcpy(novo_numero,"0");
-//	strcat(novo_numero,numero);
-//	return novo_numero;
-//}
-
 //definindo o expoente do numero
 Numero define_expoente(Numero num)
 {
 	int i;
 	Numero novo;
-	char temp[2] = "1";
 	novo.sinal = num.sinal;
-	novo.parteInteira = num.parteInteira;
+	novo.parteInteira = (char*) malloc(sizeof(char) * strlen(num.parteInteira));
+	novo.parteDecimal = (char*) malloc(sizeof(char) * strlen(num.parteDecimal));
 	int size = strlen(num.parteInteira);
 	char* corte = (char*) malloc(sizeof(char) * (size));
-	corte[size] = '\0';
+	corte[size - 1] = '\0';
 	int aux = 0;
-	for(i = 1; i < size; i++)
+	for(i = 0; i < size; i++)
 	{
-		corte[aux] = num.parteInteira[i];
-		aux++;
+		if(i > 0)
+		{
+			corte[aux] = num.parteInteira[i];
+			aux++;	
+		}
 	}
 	size = strlen(num.parteDecimal) + strlen(corte);
 	char* novo_decimal = (char*) malloc(sizeof(char) * size);
 	strcpy(novo_decimal,corte);
 	strcat(novo_decimal,num.parteDecimal);
 	strcpy(novo.parteDecimal,novo_decimal);
-	strcpy(novo.parteInteira,temp);
+	size = strlen(novo.parteInteira);
+	strcpy(novo.parteInteira, "    1");
 	novo.Expoente = aux;
 	return novo;
 }
@@ -94,11 +86,12 @@ printa_numero(Numero num, int bits, int mantissa)
 	int aux = bits;
 	printf("%d   ", num.sinal);
 	int i = 0;
-	for(i; i < aux; i++)
-	{
-		printf("%c", num.parteInteira[i]);
-	}
-	
+//	for(i; i < aux; i++)
+//	{
+//		printf("%c", num.parteInteira[i]);
+//	}
+	printf("%s ", num.parteInteira);
+		
 	printf(" , ");
 	aux = mantissa;
 	for(i = 0; i < aux; i++)
