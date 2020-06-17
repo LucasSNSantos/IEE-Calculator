@@ -13,7 +13,81 @@ typedef struct numero{
 	Sinal sinal;
 	Binario parteInteira;// parte inteira do numero
 	FloatBinario parteDecimal;//parte decimal
+	int Expoente;
 } Numero;
+
+
+
+// funcao que corta os numeros a partir da posicao
+char* corta_numero(char* num, int pos_corte)
+{
+	if(pos_corte > strlen(num)) return num;
+	int size = strlen(num);
+	int i;
+	char* novo = (char*) malloc(sizeof(char) * (size - pos_corte) );
+	//memset(novo,0, 255);
+	novo[size - pos_corte] = '\0';
+	for(i = pos_corte; i < size; i++)
+	{
+		novo[i] = num[i];
+	}
+	return  novo;
+}
+
+//definindo um numero binario com a parte inteira e a parte decimal, Sinal e o Expoente
+Numero inicializa_numero(int bits, int mantissa, int sinal)
+{
+	Numero novo;
+	novo.parteInteira = (Binario) malloc(sizeof(char) * bits);
+	novo.parteDecimal = (FloatBinario) malloc(sizeof(char) * mantissa);
+	if(sinal == 0)
+	{
+		novo.sinal = 0;
+	}else
+	{
+		novo.sinal = 1;
+	}
+	novo.Expoente = 0;
+	return novo;
+}
+
+//
+//char* coloca_zero(char* numero)
+//{
+//	char* novo_numero;
+//	int n_size = strlen(numero) + 1;
+//	novo_numero = (char*) malloc(sizeof(char) * n_size);
+//	strcpy(novo_numero,"0");
+//	strcat(novo_numero,numero);
+//	return novo_numero;
+//}
+
+//definindo o expoente do numero
+Numero define_expoente(Numero num)
+{
+	int i;
+	Numero novo;
+	char temp[2] = "1";
+	novo.sinal = num.sinal;
+	novo.parteInteira = num.parteInteira;
+	int size = strlen(num.parteInteira);
+	char* corte = (char*) malloc(sizeof(char) * (size));
+	corte[size] = '\0';
+	int aux = 0;
+	for(i = 1; i < size; i++)
+	{
+		corte[aux] = num.parteInteira[i];
+		aux++;
+	}
+	size = strlen(num.parteDecimal) + strlen(corte);
+	char* novo_decimal = (char*) malloc(sizeof(char) * size);
+	strcpy(novo_decimal,corte);
+	strcat(novo_decimal,num.parteDecimal);
+	strcpy(novo.parteDecimal,novo_decimal);
+	strcpy(novo.parteInteira,temp);
+	novo.Expoente = aux;
+	return novo;
+}
 
 printa_numero(Numero num, int bits, int mantissa)
 {
@@ -31,27 +105,13 @@ printa_numero(Numero num, int bits, int mantissa)
 	{
 		printf("%c", num.parteDecimal[i]);
 	}
+	
+	printf(" * 2 ^ %d \n", num.Expoente);
 }
 
 char parseChar(int val)
 {
 	return val + '0';
-}
-
-//definindo um numero binario com a parte inteira e a parte decimal
-Numero inicializa_numero(int bits, int mantissa, int sinal)
-{
-	Numero novo;
-	novo.parteInteira = (Binario) malloc(sizeof(char) * bits);
-	novo.parteDecimal = (FloatBinario) malloc(sizeof(char) * mantissa);
-	if(sinal == 0)
-	{
-		novo.sinal = 0;
-	}else
-	{
-		novo.sinal = 1;
-	}
-	return novo;
 }
 
 
@@ -74,6 +134,7 @@ Binario converte_bin(int decimal, int max_bits)
 		}
 		decimal /= 2;
 	}	
+	index[max_bits] = '\0';
 	return index;
 }
 
@@ -90,6 +151,7 @@ FloatBinario converte_dec(float dec, int mantissa)
 		novo[i] = parseChar(inteiro);
 		dec = dec * 2 - inteiro; 
 	}
+	novo[mantissa] = '\0';
 	return novo;
 }
 

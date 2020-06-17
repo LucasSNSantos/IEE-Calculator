@@ -9,15 +9,16 @@
 int main()
 {
 
-//	float numero;
-//	scanf("%f", &numero);
-//	int bits = retorna_bits((int)numero);
-//	Numero num = converte_numero(numero,bits,MANTISSA);
-//	printa_numero(num,bits,8);
+	float numero;
+	scanf("%f", &numero);
+	int bits = retorna_bits((int)numero);
+	Numero num = converte_numero(numero,bits,MANTISSA);
+	num =  define_expoente(num);
+	printa_numero(num,bits,8);
 
- 	char* hexa = converte_bin_hexa("1001010110101");
- 	printf("%s", hexa);
-    
+ 
+ 	
+
 
 
     return 0;
