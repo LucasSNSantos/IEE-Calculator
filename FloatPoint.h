@@ -7,14 +7,11 @@
 #define DUPLA   64
 
 
-
-
-
 /*
 	32 bits:
 		1 bit para o sinal.
 		8 bits destinados para o expoente.
-		3 bits destinados para a mantissa.
+		23 bits destinados para a mantissa.
 	64 bits:
 		1 bit destinado para o sinal;
 		11 bits destinados para o expoente;
@@ -33,8 +30,8 @@ typedef struct patternIEE
 
 void print_numero_padronizado(IEE74 val)
 {
-	printf("Precisao escolhida: ");
-	if(val.precisao == SIMPLES)
+	printf("Precisao escolhida: \n");
+	if(val.precisao <= 32)
 	{
 		printf("Precisao Simples: 32bits");
 	}else
@@ -42,46 +39,62 @@ void print_numero_padronizado(IEE74 val)
 		printf("Precisao Dupla: 64bits");
 	}
 	printf("\n");
-	printf("Sinal | Expoente| Magnitude \n");
-	printf("%d |", val.sinal);
-	printf("%s |", val.Expoente);
+	printf("| Sinal | Expoente| Magnitude | \n");
+	printf("| %d |", val.sinal);
+	printf(" %s |", val.Expoente);
+	printf(" %s |", val.Magnitude);
 	printf("\n");
 	
 }
 
 
-
-IEE74 inicia_padrao(int sinal, int precisao)
+char* completa_os_zeros(char* mantissa, int zeros)
 {
-	IEE74 novo;
-	if(sinal == 0)
+	int size = strlen(mantissa);
+	char* nova_mag = (char*) malloc(sizeof(char) * zeros);
+	nova_mag[zeros] = '\0';
+	strcpy(nova_mag, mantissa);
+	while(size < zeros)
 	{
-		novo.sinal = 0;
-	}else
-	{
-		novo.sinal = 1;
+		nova_mag[size] = '0';
+		size++;
 	}
-	if(precisao == SIMPLES)
-	{
-		novo.precisao = SIMPLES;
-		novo.Expoente = (char*) malloc(sizeof(char) * 9);
-		novo.Magnitude = (char*) malloc(sizeof(char) * 24);
-		novo.Expoente[9] = '\0';
-		novo.Magnitude[24] = '\0';
-		return novo;
-	}else
-	{
-		novo.precisao = DUPLA;
-		novo.Expoente = (char*) malloc(sizeof(char) * 11);
-		novo.Magnitude = (char*) malloc(sizeof(char) * 52);
-		novo.Expoente[11] = '\0';
-		novo.Magnitude[52] = '\0';
-		return novo;
-		
-	}
+	return nova_mag;
 }
 
-
+IEE74 padroniza_numero(Numero num, int precisao)
+{
+	IEE74 novo;
+	int offset;
+	int size;
+	if(num.sinal == 1)
+	{
+		novo.sinal = 1;
+	}else
+	{
+		novo.sinal = 0;
+	}	
+	if(precisao <= 32)
+	{
+		offset = 127 + num.Expoente;
+		novo.Expoente = (char*) malloc(sizeof(char) * 8);
+		novo.Expoente = converte_bin(offset, retorna_bits(offset));
+		
+		novo.Magnitude = (char*) malloc(sizeof(char) * 23);
+		novo.Magnitude = completa_os_zeros(num.parteDecimal, 23);
+		novo.precisao = 32;
+	}else
+	{
+		offset = 1023 + num.Expoente;
+		novo.Expoente = (char*) malloc(sizeof(char) * 11);
+		novo.Expoente = converte_bin(offset, retorna_bits(offset));
+		
+		novo.Magnitude = (char*) malloc(sizeof(char) * 52);
+		novo.Magnitude = completa_os_zeros(num.parteDecimal, 52);
+		novo.precisao = 64;
+	}
+	return novo;
+}
 
 
 
