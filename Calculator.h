@@ -206,9 +206,21 @@ int retorna_bits(int value)
 	{
 		return 7;
 	}
-	if(value <= 255)
+	if(value <= 255) // 2 ^ 8
 	{
-		return 8;
+		return 8; 
+	}
+	if(value <= 512) // 2 ^ 9
+	{
+		return 9; 
+	}
+	if(value <= 1023) // 2 ^ 10
+	{
+		return 10;
+	}
+	if(value <= 2048) // 2 ^ 11
+	{
+		return 11;
 	}
 }
 
