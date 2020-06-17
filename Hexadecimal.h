@@ -59,6 +59,7 @@ Hexadecimal converte_bin_hexa(char* bin)
 	int aux_index = 0;
 	int index = 0;
 	char* hexa = (char*) malloc(sizeof(char) * (tamanho/4) ); 
+	hexa[tamanho/4] = '\0';
 	for(i = tamanho - 1; i >= 0; i--)
 	{
 		aux[aux_index] = bin[i];
@@ -73,7 +74,11 @@ Hexadecimal converte_bin_hexa(char* bin)
 			aux_index = 0;
 		}
 	}
+	if(strlen(hexa) > 1)
+	{
 	strrev(hexa);
+	return hexa;	
+	}
 	return hexa;
 }
 

@@ -81,23 +81,15 @@ Numero define_expoente(Numero num)
 	return novo;
 }
 
-printa_numero(Numero num, int bits, int mantissa)
+void printa_numero(Numero num)
 {
-	int aux = bits;
 	printf("%d   ", num.sinal);
-	int i = 0;
-//	for(i; i < aux; i++)
-//	{
-//		printf("%c", num.parteInteira[i]);
-//	}
+
 	printf("%s ", num.parteInteira);
 		
 	printf(" , ");
-	aux = mantissa;
-	for(i = 0; i < aux; i++)
-	{
-		printf("%c", num.parteDecimal[i]);
-	}
+
+	printf("%s", num.parteDecimal);
 	
 	printf(" * 2 ^ %d \n", num.Expoente);
 }
